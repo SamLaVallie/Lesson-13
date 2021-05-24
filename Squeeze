@@ -1,0 +1,39 @@
+import java.util.Scanner;
+import java.io.*;
+
+public class Squeeze {
+	public static void main(String[] args) {
+		File file = new File("LeetSpeak.java");
+		Scanner in = null;
+		FileWriter out = null;
+		String tab = "	";
+		String EOL = "\r\n";
+
+		try {
+			in = new Scanner(file);
+			out = new FileWriter("Squeeze.txt");
+			int sp = 0;
+
+			while (in.hasNextLine()) {
+				String str = in.nextLine();
+				if (str.contains(tab)) {
+					for (int i = 0; i < str.length(); i++) {
+						if (Character.isWhitespace(str.charAt(i))) {
+							sp++;
+						} else {
+							break;
+						}
+					}
+					str = str.replace(tab, "");
+					out.write(sp + " " + str + EOL);
+					sp = 0;
+				} else {
+					out.write("0 " + str + EOL);
+				}
+			}
+			out.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}
